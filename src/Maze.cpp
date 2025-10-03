@@ -1,5 +1,8 @@
 #include "Maze.h"
 #include <cmath>
+#include <fstream>
+#include <iostream>
+#include <string>
 
 Maze::Maze(int width, int height, float cellSize) 
     : width(width), height(height), cellSize(cellSize) {
@@ -9,6 +12,18 @@ Maze::Maze(int width, int height, float cellSize)
     
     // Create a simple maze
     initialiseMaze();
+}
+
+Maze::Maze(const std::string& filename, float cellSize) 
+    : cellSize(cellSize) {
+        
+    if (!loadFromFile(filename)) {
+        std::cerr << "Failed to load maze from file. Creating default maze." << std::endl;
+        width = 40;
+        height = 30;
+        grid.resize(height, std::vector<bool>(width, false));
+        initialiseMaze();
+    }
 }
 
 void Maze::initialiseMaze() {
@@ -32,18 +47,6 @@ void Maze::initialiseMaze() {
     for (int x = 15; x < 25; x++) {
         grid[10][x] = true;
     }
-    
-    // Create a room
-    for (int x = 20; x < 28; x++) {
-        grid[5][x] = true;
-        grid[15][x] = true;
-    }
-    for (int y = 5; y < 16; y++) {
-        grid[y][20] = true;
-        grid[y][28] = true;
-    }
-    // Add door to room
-    grid[10][20] = false;
     
     // Add some scattered obstacles
     for (int y = 18; y < 21; y++) {
@@ -101,4 +104,60 @@ bool Maze::checkCollision(float worldX, float worldY, float radius) const {
     }
     
     return false;
+}
+
+bool Maze::loadFromFile(const std::string& filename) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Could not open file: " << filename << std::endl;
+        return false;
+    }
+
+    std::vector<std::string> lines;
+    std::string line;
+
+    // Read all lines
+    while (std::getline(file, line)) {
+        if (!line.empty()) {
+            lines.push_back(line);
+        }
+    }
+    file.close();
+
+    if (lines.empty()) {
+        std::cerr << "File is empty: " << filename << std::endl;
+        return false;
+    }
+
+    // Determine dimensions
+    height = lines.size();
+    width = 0;
+
+    for (const auto& l : lines) {
+        if (l.length() > width) {
+            width = l.length();
+        }
+    }
+
+    // Initialize grid
+    grid.resize(height, std::vector<bool>(width, false));
+
+    // Parse the maze - FIX: changed y=height to y<height
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < lines[y].length(); x++) {
+            char c = lines[y][x];
+            if (c == '#') {
+                grid[y][x] = true;  // Wall
+            } else {
+                grid[y][x] = false;  // Free space (., space, or anything else)
+            } 
+        }
+
+        // Fill remaining width with free space if line is shorter
+        for (int x = lines[y].length(); x < width; x++) {
+            grid[y][x] = false;
+        }
+    }
+
+    return true;
 }

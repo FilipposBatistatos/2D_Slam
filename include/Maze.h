@@ -2,10 +2,12 @@
 #define MAZE_H
 
 #include <vector>
+#include <string>
 
 class Maze {
 public:
     Maze(int width, int height, float cellSize);
+    Maze(const std::string& filename, float cellSize);
 
     bool isWall(int x, int y) const;
 
@@ -24,6 +26,7 @@ private:
     std::vector<std::vector<bool>> grid;
 
     void initialiseMaze();
+    bool loadFromFile(const std::string& filename);
 };
 
 #endif
