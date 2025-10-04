@@ -139,17 +139,16 @@ bool Maze::loadFromFile(const std::string& filename) {
         }
     }
 
-    // Initialize grid
     grid.resize(height, std::vector<bool>(width, false));
 
-    // Parse the maze - FIX: changed y=height to y<height
+    // Parse the maze 
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < lines[y].length(); x++) {
             char c = lines[y][x];
             if (c == '#') {
-                grid[y][x] = true;  // Wall
+                grid[y][x] = true;  // Wall 
             } else {
-                grid[y][x] = false;  // Free space (., space, or anything else)
+                grid[y][x] = false;  
             } 
         }
 

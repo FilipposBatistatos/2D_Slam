@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Maze.h"
+#include "Robot.h"
 
 class Renderer {
 public:
@@ -17,6 +18,7 @@ public:
     
     // Drawing functions
     void drawMaze(const Maze& maze);
+    void drawRobot(const Robot& robot);
     
     // Getters
     sf::RenderWindow& getWindow() { return window; }

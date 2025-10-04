@@ -15,6 +15,7 @@ set(SOURCES
     src/main.cpp
     src/Maze.cpp
     src/Renderer.cpp
+    src/Robot.cpp
 )
 
 add_executable(2D_Slam ${SOURCES})

@@ -56,3 +56,23 @@ void Renderer::drawMaze(const Maze& maze) {
         }
     }
 }
+
+void Renderer::drawRobot(const Robot& robot) {
+    // Draw robot as a triangle pointing in the direction of movement
+    sf::CircleShape triangle(robot.getRadius(), 3);
+    
+    // Position the triangle
+    triangle.setPosition(robot.getX(), robot.getY());
+    triangle.setOrigin(robot.getRadius(), robot.getRadius());
+    
+    // Rotate to face the correct direction
+    // Convert radians to degrees and add 90 to align properly
+    triangle.setRotation(robot.getTheta() * 180.0f / (3.14f) + 90.0f);
+    
+    // Color the robot
+    triangle.setFillColor(sf::Color(50, 150, 255));  
+    triangle.setOutlineColor(sf::Color(50, 150, 255));  
+    triangle.setOutlineThickness(2.0f);
+    
+    window.draw(triangle);
+}
