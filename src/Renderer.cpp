@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "Renderer.h"
 
 Renderer::Renderer(int windowWidth, int windowHeight, const std::string& title)
@@ -67,7 +69,7 @@ void Renderer::drawRobot(const Robot& robot) {
     
     // Rotate to face the correct direction
     // Convert radians to degrees and add 90 to align properly
-    triangle.setRotation(robot.getTheta() * 180.0f / (3.14f) + 90.0f);
+    triangle.setRotation(robot.getTheta() * 180.0f / (M_PI) + 90.0f);
     
     // Color the robot
     triangle.setFillColor(sf::Color(50, 150, 255));  
