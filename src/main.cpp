@@ -2,6 +2,7 @@
 #include "Maze.h"
 #include "Robot.h"
 #include "Renderer.h"
+#include "SLAM.h"
 
 int main() {
     std::cout << "Starting Maze SLAM Simulator..." << std::endl;
@@ -24,6 +25,11 @@ int main() {
     float startTheta = 0.0f;  // 0 is towards the right
     Robot robot(startX, startY, startTheta);
     
+    // SLAM
+    int numRays = 360;
+    float maxRange = 200.0f;
+    SLAM slam(maze.getWidth(), maze.getHeight(), CELL_SIZE, numRays, maxRange);
+
     // Clock for smooth movement
     sf::Clock clock;
     
@@ -47,8 +53,16 @@ int main() {
         
         // Draw loop
         renderer.clear();
+
+        renderer.activateMainWindow();
         renderer.drawMaze(maze);
         renderer.drawRobot(robot);
+
+        renderer.activateSLAMWindow()
+        renderer.drawOccupancyGrid(slam.getMap());
+        renderer.drawRobotPath(slam.getPath());
+        renderer.drawRobotOnSLAM(robot);
+
         renderer.display();
     }
     
