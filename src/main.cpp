@@ -58,7 +58,7 @@ int main() {
         renderer.drawMaze(maze);
         renderer.drawRobot(robot);
 
-        renderer.activateSLAMWindow()
+        renderer.activateSLAMWindow();
         renderer.drawOccupancyGrid(slam.getMap());
         renderer.drawRobotPath(slam.getPath());
         renderer.drawRobotOnSLAM(robot);
