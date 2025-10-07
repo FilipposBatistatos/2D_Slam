@@ -121,6 +121,11 @@ void Renderer::drawSensorRays(const Robot& robot, const std::vector<RayHit>& hit
 }
 
 void Renderer::drawOccupancyGrid(const OccupancyGrid& grid) {
+    sf::RectangleShape bg(sf::Vector2f(grid.getWidth() * grid.getCellSize(), grid.getHeight() * grid.getCellSize()));
+    bg.setPosition(grid.getWidth() / 2, grid.getHeight() / 2);
+    bg.setFillColor(sf::Color(20, 60, 100));
+    slamWindow.draw(bg);
+
     sf::RectangleShape cell(sf::Vector2f(grid.getCellSize(), grid.getCellSize()));
 
     for (int y = 0; y < grid.getHeight(); y++) {
