@@ -51,6 +51,9 @@ int main() {
         // Also takes maze to check for collisions
         robot.update(deltaTime, maze);
         
+        // Run the slam algorithm
+        slam.update(robot, maze);
+
         // Draw loop
         renderer.clear();
 
